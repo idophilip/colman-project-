@@ -3,7 +3,7 @@
     var ctx = canvas.getContext("2d");
     ctx.font = "30px Arial";
     ctx.strokeStyle = "black";
-    ctx.strokeText("TaskMan", 10, 50);
+    ctx.strokeText("ColmanJira", 10, 50);
 });
 
 const API_KEY = '0dd9af9e62914962bee54928200709';
