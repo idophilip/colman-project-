@@ -1,8 +1,102 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @for (var i = 0; ViewBag.tasks != null && i < ViewBag.tasks.Count; i++)
+    {
+        <div class="row col-xl-3 col-lg-3">
+            <div class="card" style="margin:10px;">
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.tasks[i].title</h5>
+                    <p class="card-text">@ViewBag.tasks[i].description</p>
+                    <a href="#" class="card-link" data-toggle="modal" data-target="#edit-task" onclick="fillValues('@ViewBag.tasks[i].title', '@ViewBag.tasks[i].description')">Edit</a>
+                    <a href="#" class="card-link">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new-task" style="position: fixed; left:60px; bottom:40px;">
+    Add New Task
+</button>
+
+<!-- New Task Modal -->
+<div class="modal fade" id="new-task" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Create">
+                <div class="modal-body">
+                    <input class="form-control" type="text" placeholder="Task Title" name="title"><br />
+                    <input class="form-control" type="text" placeholder="Task Description" name="description"><br />
+                    <select class="custom-select" required>
+                        <option value="">Link User To Task</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <br /><br />
+                    <select class="custom-select" required>
+                        <option value="">Select Task Progress</option>
+                        <option value="1">Todo</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Done</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="addTask()">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Edit Task Modal-->
+<div class="modal fade" id="edit-task" tabindex="-1" aria-labelledby="EditTask" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Update">
+                <div class="modal-body">
+
+                    <input class="form-control" type="text" placeholder="Task Title" id="task-title"><br />
+                    <input class="form-control" type="text" placeholder="Task Description" id="task-desc"><br />
+                    <select class="custom-select" id="task-user" required>
+                        <option value="">Link User To Task</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <br /><br />
+                    <select class="custom-select" id="task-progress" required>
+                        <option value="">Select Task Progress</option>
+                        <option value="1">Todo</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Done</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="    btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" onclick="addTask()">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Task/task.js"></script>
